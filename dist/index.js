@@ -233,5 +233,4 @@ class ObiexClient {
 exports.ObiexClient = ObiexClient;
 var server_2 = require("./errors/server");
 Object.defineProperty(exports, "ServerError", { enumerable: true, get: function () { return server_2.ServerError; } });
-s;
 //# sourceMappingURL=index.js.map
