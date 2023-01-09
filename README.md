@@ -37,7 +37,7 @@ Following examples will use the `await` form.
 | ----------- | -------- | -------- | -------------------------------------------- |
 | apiKey      | String   | false    | Required when making private calls           |
 | apiSecret   | String   | false    | Required when making private calls           |
-| sandboxMode   | Function | false    | Required to be true when going live        |
+| sandboxMode   | Function | false    | Required to be true in development/test enviroment        |
 
 ### Public REST Endpoints
 
