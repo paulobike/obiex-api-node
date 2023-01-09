@@ -1,14 +1,14 @@
-# obiex-api-node
+# Obiex Node API Wrapper
 
 > An API wrapper for the [Obiex](https://obiex.com) API.
 
 ### Installation
 
-    yarn add obiex-api-node
+    npm install obiexhq/obiex-api-node
 
 ### Getting started
 
-Import the module and create a new client. Passing sandbox mode is optional and it's fault by default.
+Import the client module and create a new client. Passing sandbox mode is optional and it's false by default. The sandbox mode determines if you want to use the Obiex staging or production server. Setting sandbox as true uses the staging server.
 
 ```js
 import { ObiexClient } from 'obiex-api-node'
@@ -21,9 +21,6 @@ const client = new ObiexClient({
 })
 
 ```
-
-Every REST method returns a Promise, making this library [async await](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function) ready.
-Following examples will use the `await` form.
 
 ### Table of Contents
 - [Initialization](#Initialization)
