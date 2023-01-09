@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TransactionCategory = exports.ServerError = exports.ObiexClient = void 0;
+exports.ServerError = exports.ObiexClient = void 0;
 const axios_1 = __importDefault(require("axios"));
 const crypto_1 = require("crypto");
 const cache_1 = require("./cache");
@@ -53,19 +53,19 @@ class ObiexClient {
         const { data: response } = await this.client.post(`/v1/addresses/broker`, {
             currency,
             network,
-            purpose: identifier
+            purpose: identifier,
         });
         const { data } = response;
         return {
             address: data.value,
             memo: data.memo,
             network: data.network,
-            identifier: data.purpose
+            identifier: data.purpose,
         };
     }
     async getTradePairs() {
         const { data: response } = await this.client.get("/v1/trades/pairs");
-        return response.data.map(x => ({
+        return response.data.map((x) => ({
             id: x.id,
             source: x.source.code,
             target: x.target.code,
@@ -75,7 +75,7 @@ class ObiexClient {
     }
     async getTradePairsByCurrency(currencyId) {
         const { data: response } = await this.client.get(`/v1/currencies/${currencyId}/pairs`);
-        return response.data.map(x => ({
+        return response.data.map((x) => ({
             id: x.id,
             source: x.source.code,
             target: x.target.code,
@@ -108,7 +108,7 @@ class ObiexClient {
             amount: data.amount,
             expiryDate: data.expiryDate,
             amountReceived: data.amountReceived,
-        };
+        }; // satisfies Quote;
     }
     /**
      * Swap from one currency to another (if you are not interested in verifying prices)
@@ -143,7 +143,7 @@ class ObiexClient {
     async withdrawNaira(amount, account) {
         const { data: response } = await this.client.post(`/v1/wallets/ext/debit/fiat`, {
             amount,
-            currency: 'NGNX',
+            currency: "NGNX",
             destination: account,
         });
         return response.data;
@@ -155,7 +155,7 @@ class ObiexClient {
     async getCurrencies() {
         return await this.cacheService.getOrSet("currencies", async () => {
             const { data: response } = await this.client.get("/v1/currencies");
-            return response.data.map(x => ({
+            return response.data.map((x) => ({
                 id: x.id,
                 name: x.name,
                 code: x.code,
@@ -164,7 +164,7 @@ class ObiexClient {
                 transferrable: x.transferrable,
                 minimumDeposit: x.minimumDeposit,
                 maximumDailyDeposit: x.maximumDailyDepositLimit,
-                maximumDecimalPlaces: x.maximumDecimalPlaces
+                maximumDecimalPlaces: x.maximumDecimalPlaces,
             }));
         }, 86400 // 24 Hours
         );
@@ -184,8 +184,8 @@ class ObiexClient {
         const { data: response } = await this.client.get(`/v1/ngn-payments/merchants`, {
             params: {
                 page,
-                pageSize
-            }
+                pageSize,
+            },
         });
         return response.data;
     }
@@ -201,8 +201,8 @@ class ObiexClient {
             params: {
                 page,
                 pageSize,
-                category
-            }
+                category,
+            },
         });
         return data;
     }
@@ -216,8 +216,8 @@ class ObiexClient {
         const { data } = await this.client.get(`/v1/trades/me`, {
             params: {
                 page,
-                pageSize
-            }
+                pageSize,
+            },
         });
         return data;
     }
@@ -225,10 +225,6 @@ class ObiexClient {
         const { data } = await this.client.get(`/v1/transactions/${transactionId}`);
         return data;
     }
-    //async getTradeById(tradeId: string) {
-    // const trades = await this.getTradeHistory();
-    // return trades.find((x) => x.id === tradeId);
-    //}
     async getCurrencyByCode(code) {
         const currencies = await this.getCurrencies();
         return currencies.find((x) => x.code === code);
@@ -237,11 +233,5 @@ class ObiexClient {
 exports.ObiexClient = ObiexClient;
 var server_2 = require("./errors/server");
 Object.defineProperty(exports, "ServerError", { enumerable: true, get: function () { return server_2.ServerError; } });
-var TransactionCategory;
-(function (TransactionCategory) {
-    TransactionCategory["DEPOSIT"] = "DEPOSIT";
-    TransactionCategory["WITHDRAWAL"] = "WITHDRAWAL";
-    TransactionCategory["SWAP"] = "SWAP";
-    TransactionCategory["TRANSFER"] = "TRANSFER";
-})(TransactionCategory = exports.TransactionCategory || (exports.TransactionCategory = {}));
+s;
 //# sourceMappingURL=index.js.map
