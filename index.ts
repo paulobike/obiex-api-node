@@ -2,7 +2,17 @@ import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import { createHmac } from "crypto";
 import { CacheService } from "./cache";
 import { ServerError } from "./errors/server";
-import { Currency, Network, Options, Quote, Response, TradePair } from "./types";
+import {
+  Currency,
+  Network,
+  Options,
+  Quote,
+  Response,
+  TradePair,
+  BankAccountPayout,
+  CryptoAccountPayout,
+  TransactionCategory,
+} from "./types";
 
 export class ObiexClient {
   private client: AxiosInstance;
@@ -22,16 +32,22 @@ export class ObiexClient {
     this.client = axios.create({ baseURL });
 
     this.client.interceptors.request.use((c) => this.requestConfig(c));
-    this.client.interceptors.response.use((response) => response, (error) => {
-      if (error.response && error.response.data) {
-        return Promise.reject(new ServerError(
-          error.response.message,
-          error.response.data,
-          error.response.status));
-      }
+    this.client.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response && error.response.data) {
+          return Promise.reject(
+            new ServerError(
+              error.response.message,
+              error.response.data,
+              error.response.status
+            )
+          );
+        }
 
-      return Promise.reject(error);
-    });
+        return Promise.reject(error);
+      }
+    );
 
     this.cacheService = new CacheService();
   }
@@ -70,11 +86,15 @@ export class ObiexClient {
    * @param currency The currency code eg. BTC, USDT
    * @param identifier A unique identifier you can tie to your users.
    */
-  async getDepositAddress(currency: string, network: string, identifier: string) {
+  async getDepositAddress(
+    currency: string,
+    network: string,
+    identifier: string
+  ) {
     const { data: response } = await this.client.post(`/v1/addresses/broker`, {
       currency,
       network,
-      purpose: identifier
+      purpose: identifier,
     });
 
     const { data } = response;
@@ -83,14 +103,16 @@ export class ObiexClient {
       address: data.value,
       memo: data.memo,
       network: data.network,
-      identifier: data.purpose
+      identifier: data.purpose,
     };
   }
 
   async getTradePairs() {
-    const { data: response } = await this.client.get<Response<TradePair[]>>("/v1/trades/pairs");
+    const { data: response } = await this.client.get<Response<TradePair[]>>(
+      "/v1/trades/pairs"
+    );
 
-    return response.data.map(x => ({
+    return response.data.map((x) => ({
       id: x.id,
       source: x.source.code,
       target: x.target.code,
@@ -104,7 +126,7 @@ export class ObiexClient {
       `/v1/currencies/${currencyId}/pairs`
     );
 
-    return response.data.map(x => ({
+    return response.data.map((x) => ({
       id: x.id,
       source: x.source.code,
       target: x.target.code,
@@ -115,11 +137,11 @@ export class ObiexClient {
 
   /**
    * Create quote for trade
-   * @param source Left hand side for pair i.e. BTC in BTC/USDT 
+   * @param source Left hand side for pair i.e. BTC in BTC/USDT
    * @param target Right hand side for trade pair i.e. USDT in BTC/USDT
    * @param side The trade side i.e. BUY: USDT -> BTC & SELL: BTC -> USDT for BTC/USDT
    * @param amount The amount you intend to trade
-   * @returns 
+   * @returns
    */
   async createQuote(
     source: string,
@@ -146,16 +168,16 @@ export class ObiexClient {
       amount: data.amount,
       expiryDate: data.expiryDate,
       amountReceived: data.amountReceived,
-    } satisfies Quote;
+    }; // satisfies Quote;
   }
 
   /**
    * Swap from one currency to another (if you are not interested in verifying prices)
-   * @param source Left hand side for pair i.e. BTC in BTC/USDT 
+   * @param source Left hand side for pair i.e. BTC in BTC/USDT
    * @param target Right hand side for trade pair i.e. USDT in BTC/USDT
    * @param side The trade side i.e. BUY: USDT -> BTC & SELL: BTC -> USDT for BTC/USDT
    * @param amount The amount you intend to trade
-   * @returns 
+   * @returns
    */
   async trade(
     source: string,
@@ -173,7 +195,7 @@ export class ObiexClient {
   /**
    * Accept quote using provided quote ID
    * @param quoteId Quote ID gotten from createQuote
-   * @returns 
+   * @returns
    */
   async acceptQuote(quoteId: string) {
     await this.client.post(`/v1/trades/quote/${quoteId}`);
@@ -186,24 +208,27 @@ export class ObiexClient {
     amount: number,
     wallet: CryptoAccountPayout
   ) {
-    const { data: response } = await this.client.post(`/v1/wallets/ext/debit/crypto`, {
-      amount,
-      currency: currencyCode,
-      destination: wallet,
-    });
+    const { data: response } = await this.client.post(
+      `/v1/wallets/ext/debit/crypto`,
+      {
+        amount,
+        currency: currencyCode,
+        destination: wallet,
+      }
+    );
 
     return response.data;
   }
 
-  async withdrawNaira(
-    amount: number,
-    account: BankAccountPayout
-  ) {
-    const { data: response } = await this.client.post(`/v1/wallets/ext/debit/fiat`, {
-      amount,
-      currency: 'NGNX',
-      destination: account,
-    });
+  async withdrawNaira(amount: number, account: BankAccountPayout) {
+    const { data: response } = await this.client.post(
+      `/v1/wallets/ext/debit/fiat`,
+      {
+        amount,
+        currency: "NGNX",
+        destination: account,
+      }
+    );
 
     return response.data;
   }
@@ -218,9 +243,11 @@ export class ObiexClient {
     return await this.cacheService.getOrSet(
       "currencies",
       async () => {
-        const { data: response } = await this.client.get<Response<Currency[]>>("/v1/currencies");
+        const { data: response } = await this.client.get<Response<Currency[]>>(
+          "/v1/currencies"
+        );
 
-        return response.data.map(x => ({
+        return response.data.map((x) => ({
           id: x.id,
           name: x.name,
           code: x.code,
@@ -229,7 +256,7 @@ export class ObiexClient {
           transferrable: x.transferrable,
           minimumDeposit: x.minimumDeposit,
           maximumDailyDeposit: x.maximumDailyDepositLimit,
-          maximumDecimalPlaces: x.maximumDecimalPlaces
+          maximumDecimalPlaces: x.maximumDecimalPlaces,
         }));
       },
       86400 // 24 Hours
@@ -258,8 +285,8 @@ export class ObiexClient {
       {
         params: {
           page,
-          pageSize
-        }
+          pageSize,
+        },
       }
     );
 
@@ -278,15 +305,13 @@ export class ObiexClient {
     pageSize = 30,
     category?: TransactionCategory
   ) {
-    const { data } = await this.client.get(
-      `/v1/transactions/me`, {
-        params: {
-          page, 
-          pageSize,
-          category
-        }
-      }
-    );
+    const { data } = await this.client.get(`/v1/transactions/me`, {
+      params: {
+        page,
+        pageSize,
+        category,
+      },
+    });
 
     return data;
   }
@@ -298,15 +323,12 @@ export class ObiexClient {
    * @returns
    */
   async getTradeHistory(page = 1, pageSize = 30) {
-    const { data } = await this.client.get(
-      `/v1/trades/me`,
-      {
-        params: {
-          page,
-          pageSize
-        }
-      }
-    );
+    const { data } = await this.client.get(`/v1/trades/me`, {
+      params: {
+        page,
+        pageSize,
+      },
+    });
 
     return data;
   }
@@ -317,12 +339,6 @@ export class ObiexClient {
     return data;
   }
 
-  //async getTradeById(tradeId: string) {
-    // const trades = await this.getTradeHistory();
-
-    // return trades.find((x) => x.id === tradeId);
-  //}
-
   async getCurrencyByCode(code: string) {
     const currencies = await this.getCurrencies();
 
@@ -330,26 +346,4 @@ export class ObiexClient {
   }
 }
 
-export { ServerError } from './errors/server';
-
-export interface BankAccountPayout {
-  accountNumber: string;
-  accountName: string;
-  bankName: string;
-  bankCode: string;
-  pagaBankCode: string;
-  merchantCode: string;
-}
-
-export interface CryptoAccountPayout {
-  address: string;
-  network: string;
-  memo?: string;
-}
-
-export enum TransactionCategory {
-  DEPOSIT = "DEPOSIT",
-  WITHDRAWAL = "WITHDRAWAL",
-  SWAP = "SWAP",
-  TRANSFER = "TRANSFER",
-}
+export { ServerError } from "./errors/server";
