@@ -169,6 +169,10 @@ class ObiexClient {
         }, 86400 // 24 Hours
         );
     }
+    /**
+     * @param currencyCode Get networks by currency code
+     * @returns Array
+     */
     async getNetworks(currencyCode) {
         const currency = await this.getCurrencyByCode(currencyCode);
         const { data: response } = await this.client.get(`/v1/currencies/${currency.id}/networks`);

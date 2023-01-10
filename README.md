@@ -48,7 +48,8 @@ console.log(await client.getTradePairs())
 <summary>Output</summary>
 
 ```js
-{
+[
+  {
     id: 'be3854e1-b675-4ace-877e-32caeb582dc5',
     isSellable: true;
     isBuyable: true;
@@ -76,9 +77,331 @@ console.log(await client.getTradePairs())
         maximumDailyDepositLimit: 1000;
         maximumDecimalPlaces: 2;
     },;
-}
+  }
+]
 ```
 
+</details>
+
+#### getDepositAddress
+
+```js
+console.log(await client.getDepositAddress('USDT', 'TRX', 'wallet for spending'))
+```
+
+| Param  | Type   | Required | Default |
+| ------ | ------ | -------- | ------- |
+| currency | String | true    |         |
+| network | String | true    |         |
+| identifier | String | true    |         |
+
+<details>
+<summary>Output</summary>
+
+```js
+  {
+    address: 'string',
+    memo: 'string',
+    network: 'string',
+    identifier: 'purpose',
+  }
+```
+</details>
+
+#### getTradePairsByCurrency
+
+```js
+console.log(await client.getTradePairsByCurrency('3854e1-b675-5ace-977e-32caeb582'))
+```
+
+| Param  | Type   | Required | Default |
+| ------ | ------ | -------- | ------- |
+| currencyId | String | true    |         |
+
+<details>
+<summary>Output</summary>
+
+```js
+[
+  {
+    id: 'be3854e1-b675-4ace-877e-32caeb582dc5',
+    isSellable: true;
+    isBuyable: true;
+    source: {
+        id: 'de3854e1-b675-5ace-977e-32caeb582dc5',
+        name: 'string';
+        code: 'BTC';
+        receivable: true;
+        withdrawable: true;
+        transferrable: boolean;
+        minimumDeposit: 10;
+        maximumDeposit: 10000;
+        maximumDailyDepositLimit: 100;
+        maximumDecimalPlaces: 8;
+    },
+    target: {
+        id: 'ae3854e1-b675-4dee-977e-62caeb582dd2',
+        name: 'string';
+        code: 'NGNX';
+        receivable: true;
+        withdrawable: true;
+        transferrable: boolean;
+        minimumDeposit: 100;
+        maximumDeposit: 100000;
+        maximumDailyDepositLimit: 1000;
+        maximumDecimalPlaces: 2;
+    },;
+  }
+]
+```
+</details>
+
+#### createQuote
+
+```js
+console.log(await client.createQuote('USDT', 'BNB', 'SELL', 100))
+```
+
+| Param  | Type   | Required |
+| ------ | ------ | -------- |
+| source | String | true    |
+| target | String | true    |
+| side | String | true    |
+| amount | Number | true    |
+
+<details>
+<summary>Output</summary>
+
+```js
+  {
+    id: String,
+    rate: Number,
+    side: String,
+    amount: Number,
+    expiryDate: Date,
+    amountReceived: Number,
+  }
+```
+</details>
+
+#### trade
+
+```js
+console.log(await client.trade('USDT', 'BNB', 'SELL', 100))
+```
+
+| Param  | Type   | Required |
+| ------ | ------ | -------- |
+| source | String | true    |
+| target | String | true    |
+| side | String | true    |
+| amount | Number | true    |
+
+<details>
+<summary>Output</summary>
+
+```js
+  {
+    id: String,
+    rate: Number,
+    side: String,
+    amount: Number,
+    expiryDate: Date,
+    amountReceived: Number,
+  }
+```
+</details>
+
+#### acceptQuote
+
+```js
+console.log(await client.acceptQuote('quoteId');
+```
+
+| Param  | Type   | Required |
+| ------ | ------ | -------- |
+| quoteId | String | true    |
+
+<details>
+<summary>Output</summary>
+
+```js
+  Boolean
+```
+</details>
+
+#### withdrawCrypto
+
+```js
+console.log(await client.withdrawCrypto('BTC', 100, {
+  address: 'string';
+  network: 'string';
+  memo?: 'string';
+});
+```
+
+| Param        | Type   | Required      |
+| ------       | ------ | --------      |
+| currencyCode | String | true    |
+| amount       | Number | true    |
+| address      | String | true    |
+| network      | String | true    |
+| memo         | String | false   |
+
+#### withdrawNaira
+
+```js
+console.log(await client.withdrawNaira(100, {
+  accountNumber: 'string';
+  accountName: 'string';
+  bankName: 'string';
+  bankCode: 'string';
+  pagaBankCode: 'string';
+  merchantCode: 'string';
+});
+```
+
+| Param         | Type   | Required      |
+| ------        | ------ | --------      |
+| amount        | Number | true    |
+| accountNumber | String | true    |
+| accountName   | String | true    |
+| bankName      | String | true   |
+| bankCode      | String | true   |
+| pagaBankCode  | String | true   |
+| merchantCode  | String | true   |
+
+
+#### getBanks
+
+```js
+console.log(await client.getBanks();
+```
+
+#### getCurrencies
+
+```js
+console.log(await client.getCurrencies();
+```
+
+<details>
+<summary>Output</summary>
+
+```js
+  [
+    {
+      id: String,
+      name: String,
+      code: String,
+      receivable: Boolean,
+      withdrawable: Boolean,
+      transferrable: Boolean,
+      minimumDeposit: Number,
+      maximumDailyDeposit: Number,
+      maximumDecimalPlaces: Number,
+    }
+  ]
+```
+</details>
+
+#### getNetworks
+
+```js
+console.log(await client.getNetworks('BTC');
+```
+
+| Param         | Type   | Required |
+| ------        | ------ | -------- |
+| currencyCode  | String | true     |
+
+<details>
+<summary>Output</summary>
+
+```js
+  [
+    {
+      id: String;
+      name: String;
+      code: String;
+      memoRegex: String;
+      addressRegex: String;
+      minimumConfirmations: Number;
+    }
+  ]
+```
+</details>
+
+#### getNairaMerchants
+
+```js
+console.log(await client.getNairaMerchants(1, 30);
+```
+
+| Param     | Type   | Required |
+| ------    | ------ | -------- |
+| page      | Number | false    |
+| pageSize  | Number | false    |
+
+#### getTransactionHistory
+
+```js
+console.log(await client.getTransactionHistory(1, 30, TransactionCategory.DEPOSIT);
+```
+
+| Param     | Type   | Required |
+| ------    | ------ | -------- |
+| page      | Number | false    |
+| pageSize  | Number | false    |
+| category  | Enum   | true     |
+
+#### getTradeHistory
+
+```js
+console.log(await client.getTradeHistory(1, 30);
+```
+
+| Param     | Type   | Required |
+| ------    | ------ | -------- |
+| page      | Number | false    |
+| pageSize  | Number | false    |
+
+#### getTransactionById
+
+```js
+console.log(await client.getTransactionById('3854e1-b675-5ace-977e-32caeb582');
+```
+
+| Param           | Type   | Required |
+| ------          | ------ | -------- |
+| transactionId   | String | true    |
+
+
+#### getCurrencyByCode
+
+```js
+console.log(await client.getCurrencyByCode('ETH');
+```
+
+| Param  | Type   | Required |
+| ------ | ------ | -------- |
+| code   | String | true    |
+
+<details>
+<summary>Output</summary>
+
+```js
+  {
+    id: String,
+    name: String,
+    code: String,
+    receivable: Boolean,
+    withdrawable: Boolean,
+    transferrable: Boolean,
+    minimumDeposit: Number,
+    maximumDailyDeposit: Number,
+    maximumDecimalPlaces: Number,
+  }
+```
 </details>
 
 ### ServerErrors
