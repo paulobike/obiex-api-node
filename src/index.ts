@@ -1,3 +1,4 @@
+import { removeEmptyValue, buildQueryString } from "./utils";
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import { createHmac } from "crypto";
 import { CacheService } from "./cache";
@@ -53,12 +54,18 @@ export class ObiexClient {
   }
 
   private requestConfig(requestConfig: AxiosRequestConfig) {
-    const { timestamp, signature } = this.sign(
-      requestConfig.method,
-      requestConfig.url
-    );
+    let url = requestConfig.url,
+      params = requestConfig.params;
 
-    requestConfig.headers["Content-Type"] = "application/json";
+    params = removeEmptyValue(params);
+    params = buildQueryString(params);
+
+    if (params !== "") {
+      url = `${url}?${params}`;
+    }
+
+    const { timestamp, signature } = this.sign(requestConfig.method, url);
+
     requestConfig.headers["x-api-timestamp"] = timestamp;
     requestConfig.headers["x-api-signature"] = signature;
     requestConfig.headers["x-api-key"] = this.apiKey;

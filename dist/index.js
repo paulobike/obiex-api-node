@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ServerError = exports.ObiexClient = void 0;
+const utils_1 = require("./utils");
 const axios_1 = __importDefault(require("axios"));
 const crypto_1 = require("crypto");
 const cache_1 = require("./cache");
@@ -26,8 +27,13 @@ class ObiexClient {
         this.cacheService = new cache_1.CacheService();
     }
     requestConfig(requestConfig) {
-        const { timestamp, signature } = this.sign(requestConfig.method, requestConfig.url);
-        requestConfig.headers["Content-Type"] = "application/json";
+        let url = requestConfig.url, params = requestConfig.params;
+        params = (0, utils_1.removeEmptyValue)(params);
+        params = (0, utils_1.buildQueryString)(params);
+        if (params !== "") {
+            url = `${url}?${params}`;
+        }
+        const { timestamp, signature } = this.sign(requestConfig.method, url);
         requestConfig.headers["x-api-timestamp"] = timestamp;
         requestConfig.headers["x-api-signature"] = signature;
         requestConfig.headers["x-api-key"] = this.apiKey;
