@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Obiex Node.js API client",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "rm -rf dist && tsc",
     "prepare": "husky install"
