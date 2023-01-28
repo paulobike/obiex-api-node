@@ -239,6 +239,10 @@ class ObiexClient {
         const currencies = await this.getCurrencies();
         return currencies.find((x) => x.code === code);
     }
+    async getOrCreateWallet(currencyCode) {
+        const { data } = await this.client.get(`/v1/wallets/${currencyCode}`);
+        return data;
+    }
 }
 exports.ObiexClient = ObiexClient;
 var server_2 = require("./errors/server");

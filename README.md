@@ -345,14 +345,31 @@ console.log(await client.getNairaMerchants(1, 30);
 #### getTransactionHistory
 
 ```js
-console.log(await client.getTransactionHistory(1, 30, TransactionCategory.DEPOSIT);
+console.log(await client.getTransactionHistory(1, 30, 'DEPOSIT');
+
+enum TransactionCategory {
+  DEPOSIT = "DEPOSIT",
+  WITHDRAWAL = "WITHDRAWAL",
+  SWAP = "SWAP",
+  TRANSFER = "TRANSFER",
+}
 ```
 
-| Param     | Type   | Required |
-| ------    | ------ | -------- |
-| page      | Number | false    |
-| pageSize  | Number | false    |
-| category  | Enum   | true     |
+| Param                | Type   | Required |
+| -------------------  | ------ | -------- |
+| page                 | Number | false    |
+| pageSize             | Number | false    |
+| transactionCategory  | Enum   | true     |
+
+#### getOrCreateWallet
+
+```js
+console.log(await client.getOrCreateWallet('NGNX');
+```
+
+| Param         | Type   | Required |
+| ------        | ------ | -------- |
+| currencyCode  | String | true    |
 
 #### getTradeHistory
 
