@@ -90,9 +90,17 @@ export interface CryptoAccountPayout {
   memo?: string;
 }
 
-export enum TransactionCategory {
-  DEPOSIT = "DEPOSIT",
-  WITHDRAWAL = "WITHDRAWAL",
-  SWAP = "SWAP",
-  TRANSFER = "TRANSFER",
+export interface Wallet {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  active: boolean;
+  availableBalance: number;
+  pendingBalance: number;
+  pendingSwapBalance: number;
+  lockedBalance: number;
+  totalSwappableBalance: number;
+  totalPendingBalance: number;
+  userId: string;
+  currency: Currency;
 }

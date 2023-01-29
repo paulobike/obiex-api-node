@@ -12,8 +12,9 @@ import {
   TradePair,
   BankAccountPayout,
   CryptoAccountPayout,
-  TransactionCategory,
+  Wallet,
 } from "./types";
+import { TransactionCategory } from "./enums/TransactionCategory";
 
 export class ObiexClient {
   private client: AxiosInstance;
@@ -356,10 +357,36 @@ export class ObiexClient {
     return currencies.find((x) => x.code === code);
   }
 
-  async getOrCreateWallet(currencyCode: string) {
-    const { data } = await this.client.get(`/v1/wallets/${currencyCode}`);
+  async getOrCreateWallet(currencyCode: string): Promise<Wallet> {
+    const { data: response } = await this.client.get(
+      `/v1/wallets/${currencyCode}`
+    );
 
-    return data;
+    return response.data.map((x: Wallet) => ({
+      id: x.id,
+      createdAt: x.createdAt,
+      updatedAt: x.updatedAt,
+      active: x.active,
+      availableBalance: x.availableBalance,
+      pendingBalance: x.pendingBalance,
+      pendingSwapBalance: x.pendingSwapBalance,
+      lockedBalance: x.lockedBalance,
+      totalSwappableBalance: x.totalSwappableBalance,
+      totalPendingBalance: x.totalPendingBalance,
+      userId: x.userId,
+      currency: {
+        id: x.currency.id,
+        name: x.currency.name,
+        code: x.currency.code,
+        receivable: x.currency.receivable,
+        withdrawable: x.currency.withdrawable,
+        transferrable: x.currency.transferrable,
+        minimumDeposit: x.currency.minimumDeposit,
+        maximumDeposit: x.currency.maximumDeposit,
+        maximumDailyDepositLimit: x.currency.maximumDailyDepositLimit,
+        maximumDecimalPlaces: x.currency.maximumDecimalPlaces,
+      },
+    }));
   }
 }
 

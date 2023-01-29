@@ -1,4 +1,5 @@
-import { Network, Options, BankAccountPayout, CryptoAccountPayout, TransactionCategory } from "./types";
+import { Network, Options, BankAccountPayout, CryptoAccountPayout, Wallet } from "./types";
+import { TransactionCategory } from "./enums/TransactionCategory";
 export declare class ObiexClient {
     private client;
     private apiKey;
@@ -123,6 +124,6 @@ export declare class ObiexClient {
         maximumDailyDeposit: number;
         maximumDecimalPlaces: number;
     }>;
-    getOrCreateWallet(currencyCode: string): Promise<any>;
+    getOrCreateWallet(currencyCode: string): Promise<Wallet>;
 }
 export { ServerError } from "./errors/server";
