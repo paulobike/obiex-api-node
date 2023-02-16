@@ -1,4 +1,4 @@
-import { Network, Options, BankAccountPayout, CryptoAccountPayout, Wallet } from "./types";
+import { Network, Options, BankAccountPayout, CryptoAccountPayout, Wallet, FiatMerchant, Banks, BankDepositRequest } from "./types";
 import { TransactionCategory } from "./enums/TransactionCategory";
 export declare class ObiexClient {
     private client;
@@ -73,7 +73,7 @@ export declare class ObiexClient {
     acceptQuote(quoteId: string): Promise<boolean>;
     withdrawCrypto(currencyCode: string, amount: number, wallet: CryptoAccountPayout): Promise<any>;
     withdrawNaira(amount: number, account: BankAccountPayout): Promise<any>;
-    getBanks(): Promise<any>;
+    getBanks(): Promise<Banks[]>;
     getCurrencies(): Promise<{
         id: string;
         name: string;
@@ -96,7 +96,7 @@ export declare class ObiexClient {
      * @param pageSize number // default: 30
      * @returns
      */
-    getNairaMerchants(page?: number, pageSize?: number): Promise<any>;
+    getNairaMerchants(page?: number, pageSize?: number): Promise<FiatMerchant[]>;
     /**
      *
      * @param page number
@@ -125,5 +125,25 @@ export declare class ObiexClient {
         maximumDecimalPlaces: number;
     }>;
     getOrCreateWallet(currencyCode: string): Promise<Wallet>;
+    /**
+     *
+     * @param payload BankDepositRequest
+     * @returns
+     */
+    requestNairaDepositBankAccount({ merchantCode, amount, }: BankDepositRequest): Promise<any>;
+    /**
+     *
+     * @param reference string
+     * @returns
+     */
+    verifyNairaDeposit(reference: string): Promise<any>;
+    /**
+     *
+     * @param reference string
+     * @returns
+     */
+    verifyNairaWithdrawal(reference: string): Promise<any>;
 }
 export { ServerError } from "./errors/server";
+export { TransactionCategory } from "./enums/TransactionCategory";
+export { Currency, Network, Options, Quote, Response, TradePair, BankAccountPayout, CryptoAccountPayout, Wallet, FiatMerchant, Banks, BankDepositRequest, } from "./types";

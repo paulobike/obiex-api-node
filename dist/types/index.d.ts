@@ -66,7 +66,6 @@ export interface BankAccountPayout {
     accountName: string;
     bankName: string;
     bankCode: string;
-    pagaBankCode: string;
     merchantCode: string;
 }
 export interface CryptoAccountPayout {
@@ -87,4 +86,36 @@ export interface Wallet {
     totalPendingBalance: number;
     userId: string;
     currency: Currency;
+}
+export interface FiatMerchant {
+    id: string;
+    createdAt: string;
+    updatedAt: string;
+    active: boolean;
+    code: string;
+    depositFee: number;
+    payoutFee: number;
+    userId: string;
+    user: {
+        id: string;
+        createdAt: string;
+        updatedAt: string;
+        active: boolean;
+        firstName: string;
+        lastName: string;
+        email: string;
+        role: string;
+    };
+    totalRequests: number;
+    completedRequests: number;
+}
+export interface Banks {
+    name: string;
+    uuid: string;
+    interInstitutionCode: string;
+    sortCode: string;
+}
+export interface BankDepositRequest {
+    merchantCode: string;
+    amount: number;
 }

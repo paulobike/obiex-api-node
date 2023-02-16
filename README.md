@@ -256,7 +256,6 @@ console.log(await client.withdrawNaira(100, {
   accountName: 'string';
   bankName: 'string';
   bankCode: 'string';
-  pagaBankCode: 'string';
   merchantCode: 'string';
 });
 ```
@@ -268,7 +267,6 @@ console.log(await client.withdrawNaira(100, {
 | accountName   | String | true    |
 | bankName      | String | true   |
 | bankCode      | String | true   |
-| pagaBankCode  | String | true   |
 | merchantCode  | String | true   |
 
 
@@ -342,6 +340,35 @@ console.log(await client.getNairaMerchants(1, 30);
 | page      | Number | false    |
 | pageSize  | Number | false    |
 
+<details>
+
+```js
+  [
+    {
+      id: string;
+      createdAt: string;
+      updatedAt: string;
+      active: boolean;
+      code: string;
+      depositFee: number;
+      payoutFee: number;
+      userId: string;
+      user: {
+        id: string;
+        createdAt: string;
+        updatedAt: string;
+        active: boolean;
+        firstName: string;
+        lastName: string;
+        email: string;
+        role: string;
+      };
+      totalRequests: number;
+      completedRequests: number;
+    }
+  ]
+```
+</details>
 #### getTransactionHistory
 
 ```js
@@ -359,7 +386,7 @@ enum TransactionCategory {
 | -------------------  | ------ | -------- |
 | page                 | Number | false    |
 | pageSize             | Number | false    |
-| transactionCategory  | Enum   | true     |
+| transactionCategory  | Enum   | false     |
 
 #### getOrCreateWallet
 
@@ -420,6 +447,39 @@ console.log(await client.getCurrencyByCode('ETH');
   }
 ```
 </details>
+
+#### requestNairaDepositBankAccount
+
+```js
+console.log(await client.requestNairaDepositBankAccount('AAA', 10000);
+```
+
+| Param          | Type   | Required | Description |
+| ------         | ------ | -------- |  --------   |
+| merchantCode   | String | true     |  This is code gotten from fetching getNairaMerchants()  |
+| amount         | Number | true     |
+
+
+#### verifyNairaDeposit
+
+```js
+console.log(await client.verifyNairaDeposit('ae3854e1-b675-4dee-977e-62caeb582dd2');
+```
+
+| Param      | Type   | Required |
+| ------     | ------ | -------- |
+| reference  | String | true     |
+
+
+#### verifyNairaWithdrawal
+
+```js
+console.log(await client.verifyNairaWithdrawal('ae3854e1-b675-4dee-977e-62caeb582dd2');
+```
+
+| Param      | Type   | Required |
+| ------     | ------ | -------- |
+| reference  | String | true     |
 
 ### ServerErrors
 

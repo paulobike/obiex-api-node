@@ -13,6 +13,9 @@ import {
   BankAccountPayout,
   CryptoAccountPayout,
   Wallet,
+  FiatMerchant,
+  Banks,
+  BankDepositRequest,
 } from "./types";
 import { TransactionCategory } from "./enums/TransactionCategory";
 
@@ -242,7 +245,9 @@ export class ObiexClient {
   }
 
   async getBanks() {
-    const { data: response } = await this.client.get("/v1/ngn-payments/banks");
+    const { data: response } = await this.client.get<Response<Banks[]>>(
+      "/v1/ngn-payments/banks"
+    );
 
     return response.data;
   }
@@ -292,7 +297,7 @@ export class ObiexClient {
    * @returns
    */
   async getNairaMerchants(page = 1, pageSize = 30) {
-    const { data: response } = await this.client.get(
+    const { data: response } = await this.client.get<Response<FiatMerchant[]>>(
       `/v1/ngn-payments/merchants`,
       {
         params: {
@@ -388,6 +393,69 @@ export class ObiexClient {
       },
     }));
   }
+
+  /**
+   *
+   * @param payload BankDepositRequest
+   * @returns
+   */
+  async requestNairaDepositBankAccount({
+    merchantCode,
+    amount,
+  }: BankDepositRequest) {
+    const { data: response } = await this.client.post(
+      `/v1/ngn-payments/deposits`,
+      {
+        merchantCode,
+        amount,
+      }
+    );
+
+    return response.data;
+  }
+
+  /**
+   *
+   * @param reference string
+   * @returns
+   */
+  async verifyNairaDeposit(reference: string) {
+    const { data: response } = await this.client.put(
+      `/v1/ngn-payments/deposits/${reference}`
+    );
+
+    return response.data;
+  }
+
+  /**
+   *
+   * @param reference string
+   * @returns
+   */
+  async verifyNairaWithdrawal(reference: string) {
+    const { data: response } = await this.client.put(
+      `/v1/ngn-payments/withdrawals/${reference}`
+    );
+
+    return response.data;
+  }
 }
 
 export { ServerError } from "./errors/server";
+
+export { TransactionCategory } from "./enums/TransactionCategory";
+
+export {
+  Currency,
+  Network,
+  Options,
+  Quote,
+  Response,
+  TradePair,
+  BankAccountPayout,
+  CryptoAccountPayout,
+  Wallet,
+  FiatMerchant,
+  Banks,
+  BankDepositRequest,
+} from "./types";
