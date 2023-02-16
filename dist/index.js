@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ServerError = exports.ObiexClient = void 0;
+exports.TransactionCategory = exports.ServerError = exports.ObiexClient = void 0;
 const utils_1 = require("./utils");
 const axios_1 = __importDefault(require("axios"));
 const crypto_1 = require("crypto");
@@ -267,8 +267,40 @@ class ObiexClient {
             },
         }));
     }
+    /**
+     *
+     * @param payload BankDepositRequest
+     * @returns
+     */
+    async depositNaira({ merchantCode, amount }) {
+        const { data: response } = await this.client.post(`/v1/ngn-payments/deposits`, {
+            merchantCode,
+            amount,
+        });
+        return response.data;
+    }
+    /**
+     *
+     * @param reference string
+     * @returns
+     */
+    async verifyNairaDeposit(reference) {
+        const { data: response } = await this.client.put(`/v1/ngn-payments/deposits/${reference}`);
+        return response.data;
+    }
+    /**
+     *
+     * @param reference string
+     * @returns
+     */
+    async verifyNairaWithdrawal(reference) {
+        const { data: response } = await this.client.put(`/v1/ngn-payments/withdrawals/${reference}`);
+        return response.data;
+    }
 }
 exports.ObiexClient = ObiexClient;
 var server_2 = require("./errors/server");
 Object.defineProperty(exports, "ServerError", { enumerable: true, get: function () { return server_2.ServerError; } });
+var TransactionCategory_1 = require("./enums/TransactionCategory");
+Object.defineProperty(exports, "TransactionCategory", { enumerable: true, get: function () { return TransactionCategory_1.TransactionCategory; } });
 //# sourceMappingURL=index.js.map
