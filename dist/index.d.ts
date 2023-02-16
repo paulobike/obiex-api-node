@@ -130,7 +130,7 @@ export declare class ObiexClient {
      * @param payload BankDepositRequest
      * @returns
      */
-    depositNaira({ merchantCode, amount }: BankDepositRequest): Promise<any>;
+    requestNairaDepositBankAccount({ merchantCode, amount, }: BankDepositRequest): Promise<any>;
     /**
      *
      * @param reference string

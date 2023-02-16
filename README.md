@@ -448,10 +448,10 @@ console.log(await client.getCurrencyByCode('ETH');
 ```
 </details>
 
-#### depositNaira
+#### requestNairaDepositBankAccount
 
 ```js
-console.log(await client.depositNaira('AAA', 10000);
+console.log(await client.requestNairaDepositBankAccount('AAA', 10000);
 ```
 
 | Param          | Type   | Required | Description |

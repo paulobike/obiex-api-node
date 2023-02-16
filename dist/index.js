@@ -272,7 +272,7 @@ class ObiexClient {
      * @param payload BankDepositRequest
      * @returns
      */
-    async depositNaira({ merchantCode, amount }) {
+    async requestNairaDepositBankAccount({ merchantCode, amount, }) {
         const { data: response } = await this.client.post(`/v1/ngn-payments/deposits`, {
             merchantCode,
             amount,
