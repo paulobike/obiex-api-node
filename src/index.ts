@@ -16,6 +16,7 @@ import {
   FiatMerchant,
   Banks,
   BankDepositRequest,
+  FiatBankAccount,
 } from "./types";
 import { TransactionCategory } from "./enums/TransactionCategory";
 
@@ -439,6 +440,25 @@ export class ObiexClient {
 
     return response.data;
   }
+
+  /**
+   *
+   * @param bankId string
+   * @param accountNumber string
+   * @returns FiatBankAccount
+   */
+  async resolveNairaBankAccount(bankId: string, accountNumber: string) {
+    const { data: response } = await this.client.get<
+      Response<FiatBankAccount[]>
+    >(`/v1/ngn-payments/accounts/resolve`, {
+      params: {
+        bankId,
+        accountNumber,
+      },
+    });
+
+    return response.data;
+  }
 }
 
 export { ServerError } from "./errors/server";
@@ -458,4 +478,5 @@ export {
   FiatMerchant,
   Banks,
   BankDepositRequest,
+  FiatBankAccount,
 } from "./types";

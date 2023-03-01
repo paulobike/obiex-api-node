@@ -1,4 +1,4 @@
-import { Network, Options, BankAccountPayout, CryptoAccountPayout, Wallet, FiatMerchant, Banks, BankDepositRequest } from "./types";
+import { Network, Options, BankAccountPayout, CryptoAccountPayout, Wallet, FiatMerchant, Banks, BankDepositRequest, FiatBankAccount } from "./types";
 import { TransactionCategory } from "./enums/TransactionCategory";
 export declare class ObiexClient {
     private client;
@@ -143,7 +143,14 @@ export declare class ObiexClient {
      * @returns
      */
     verifyNairaWithdrawal(reference: string): Promise<any>;
+    /**
+     *
+     * @param bankId string
+     * @param accountNumber string
+     * @returns FiatBankAccount
+     */
+    resolveNairaBankAccount(bankId: string, accountNumber: string): Promise<FiatBankAccount[]>;
 }
 export { ServerError } from "./errors/server";
 export { TransactionCategory } from "./enums/TransactionCategory";
-export { Currency, Network, Options, Quote, Response, TradePair, BankAccountPayout, CryptoAccountPayout, Wallet, FiatMerchant, Banks, BankDepositRequest, } from "./types";
+export { Currency, Network, Options, Quote, Response, TradePair, BankAccountPayout, CryptoAccountPayout, Wallet, FiatMerchant, Banks, BankDepositRequest, FiatBankAccount, } from "./types";
