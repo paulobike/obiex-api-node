@@ -6,7 +6,13 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "rm -rf dist && tsc",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "format": "eslint ./src/**/*.ts --fix && npx prettier src --write"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "npm run format"
+    ]
   },
   "repository": {
     "type": "git",

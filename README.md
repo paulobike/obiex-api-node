@@ -481,6 +481,30 @@ console.log(await client.verifyNairaWithdrawal('ae3854e1-b675-4dee-977e-62caeb58
 | ------     | ------ | -------- |
 | reference  | String | true     |
 
+
+#### resolveNairaBankAccount
+
+```js
+console.log(await client.resolveNairaBankAccount(bankId, accountNumber);
+```
+
+| Param         | Type   | Required |
+| ------------  | ------ | -------- |
+| bankId        | String | true     |
+| accountNumber | String | true     |
+
+<details>
+<summary>Output</summary>
+
+```js
+  {
+    bankId: String,
+    accountNumber: String,
+    accountName: String,
+  }
+```
+</details>
+
 ### ServerErrors
 
 A server error is also being exported by the package in order for you to make readable

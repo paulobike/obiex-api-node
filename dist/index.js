@@ -297,6 +297,21 @@ class ObiexClient {
         const { data: response } = await this.client.put(`/v1/ngn-payments/withdrawals/${reference}`);
         return response.data;
     }
+    /**
+     *
+     * @param bankId string
+     * @param accountNumber string
+     * @returns FiatBankAccount
+     */
+    async resolveNairaBankAccount(bankId, accountNumber) {
+        const { data: response } = await this.client.get(`/v1/ngn-payments/accounts/resolve`, {
+            params: {
+                bankId,
+                accountNumber,
+            },
+        });
+        return response.data;
+    }
 }
 exports.ObiexClient = ObiexClient;
 var server_2 = require("./errors/server");

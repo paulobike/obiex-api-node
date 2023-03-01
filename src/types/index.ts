@@ -138,3 +138,9 @@ export interface BankDepositRequest {
   merchantCode: string;
   amount: number;
 }
+
+export interface FiatBankAccount {
+  bankId: string;
+  accountNumber: string;
+  accountName: string;
+}
