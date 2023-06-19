@@ -41,7 +41,7 @@ export class ObiexClient {
     this.client.interceptors.response.use(
       (response) => response,
       (error) => {
-        if (error.response && error.response.data) {
+        if (error.response?.data) {
           return Promise.reject(
             new ServerError(
               error.response.message,
@@ -411,6 +411,8 @@ export class ObiexClient {
         amount,
       }
     );
+
+    console.log(response);
 
     return response.data;
   }

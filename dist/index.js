@@ -19,7 +19,7 @@ class ObiexClient {
         this.client = axios_1.default.create({ baseURL });
         this.client.interceptors.request.use((c) => this.requestConfig(c));
         this.client.interceptors.response.use((response) => response, (error) => {
-            if (error.response && error.response.data) {
+            if (error.response?.data) {
                 return Promise.reject(new server_1.ServerError(error.response.message, error.response.data, error.response.status));
             }
             return Promise.reject(error);
@@ -277,6 +277,7 @@ class ObiexClient {
             merchantCode,
             amount,
         });
+        console.log(response);
         return response.data;
     }
     /**
