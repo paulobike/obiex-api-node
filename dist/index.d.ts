@@ -1,4 +1,4 @@
-import { Network, Options, BankAccountPayout, CryptoAccountPayout, Wallet, FiatMerchant, Banks, BankDepositRequest, FiatBankAccount } from "./types";
+import { Network, Options, BankAccountPayout, CryptoAccountPayout, Wallet, FiatMerchant, Banks, BankDepositRequest, FiatBankAccount, NairaPayment } from "./types";
 import { TransactionCategory } from "./enums/TransactionCategory";
 export declare class ObiexClient {
     private client;
@@ -130,7 +130,7 @@ export declare class ObiexClient {
      * @param payload BankDepositRequest
      * @returns
      */
-    requestNairaDepositBankAccount({ merchantCode, amount, }: BankDepositRequest): Promise<any>;
+    requestNairaDepositBankAccount({ merchantCode, amount, }: BankDepositRequest): Promise<NairaPayment>;
     /**
      *
      * @param reference string

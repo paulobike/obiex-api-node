@@ -124,3 +124,21 @@ export interface FiatBankAccount {
     accountNumber: string;
     accountName: string;
 }
+export interface NairaPayment {
+    createdAt: Date;
+    reference: string;
+    customerReference: string;
+    merchantAccountNumber: string;
+    merchantAccountName: string;
+    fee: number;
+    amount: number;
+    merchantId: string;
+    recipientBankAccountId?: string;
+    type: "DEPOSIT" | "WITHDRAW";
+    status: "FAILED" | "PENDING" | "PROCESSING" | "CANCELLED" | "COMPLETED";
+    recipientBankAccount: {
+        accountName: string;
+        accountNumber: string;
+        bankId: string;
+    };
+}

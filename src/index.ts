@@ -7,7 +7,6 @@ import {
   Currency,
   Network,
   Options,
-  Quote,
   Response,
   TradePair,
   BankAccountPayout,
@@ -17,6 +16,7 @@ import {
   Banks,
   BankDepositRequest,
   FiatBankAccount,
+  NairaPayment,
 } from "./types";
 import { TransactionCategory } from "./enums/TransactionCategory";
 
@@ -404,7 +404,7 @@ export class ObiexClient {
     merchantCode,
     amount,
   }: BankDepositRequest) {
-    const { data: response } = await this.client.post(
+    const { data: response } = await this.client.post<Response<NairaPayment>>(
       `/v1/ngn-payments/deposits`,
       {
         merchantCode,
