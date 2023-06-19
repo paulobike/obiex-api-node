@@ -277,7 +277,6 @@ class ObiexClient {
             merchantCode,
             amount,
         });
-        console.log(response);
         return response.data;
     }
     /**

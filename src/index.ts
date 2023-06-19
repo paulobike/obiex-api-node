@@ -412,8 +412,6 @@ export class ObiexClient {
       }
     );
 
-    console.log(response);
-
     return response.data;
   }
 
