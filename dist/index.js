@@ -186,7 +186,7 @@ class ObiexClient {
     /**
      * @returns
      */
-    async getActieNetworks() {
+    async getActiveNetworks() {
         const { data: response } = await this.client.get(`/v1/currencies/networks/active`);
         return response.data;
     }

@@ -76,7 +76,7 @@ export interface Network {
   minimumConfirmations: number;
 }
 
-export interface ActiveNetwork {
+interface ActiveNetwork {
   networkName: string;
   networkCode: string;
   minimumDeposit: number;
@@ -84,8 +84,17 @@ export interface ActiveNetwork {
   minimumWithdrawal: number;
   withdrawalFee: number;
   maximumDecimalPlaces: number;
-  receiveFeeType: "PERCENTAGE" | string;
-  withdrawalFeeType: "PERCENTAGE" | string;
+  receiveFeeType: "PERCENTAGE" | "FLAT";
+  withdrawalFeeType: "PERCENTAGE" | "FLAT";
+}
+
+interface ActiveNetworkCurrency {
+  currencyName: string;
+  networks: ActiveNetwork[];
+}
+
+export interface ActiveNetworkCurrencyMap {
+  [key: string]: ActiveNetworkCurrency;
 }
 
 export interface BankAccountPayout {

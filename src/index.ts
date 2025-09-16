@@ -17,7 +17,7 @@ import {
   BankDepositRequest,
   FiatBankAccount,
   NairaPayment,
-  ActiveNetwork,
+  ActiveNetworkCurrencyMap,
 } from "./types";
 import { TransactionCategory } from "./enums/TransactionCategory";
 
@@ -293,10 +293,10 @@ export class ObiexClient {
   /**
    * @returns
    */
-  async getActieNetworks() {
-    const { data: response } = await this.client.get<Response<ActiveNetwork[]>>(
-      `/v1/currencies/networks/active`,
-    );
+  async getActiveNetworks() {
+    const { data: response } = await this.client.get<
+      Response<ActiveNetworkCurrencyMap[]>
+    >(`/v1/currencies/networks/active`);
 
     return response.data;
   }

@@ -1,4 +1,4 @@
-import { Network, Options, BankAccountPayout, CryptoAccountPayout, Wallet, FiatMerchant, Banks, BankDepositRequest, FiatBankAccount, NairaPayment, ActiveNetwork } from "./types";
+import { Network, Options, BankAccountPayout, CryptoAccountPayout, Wallet, FiatMerchant, Banks, BankDepositRequest, FiatBankAccount, NairaPayment, ActiveNetworkCurrencyMap } from "./types";
 import { TransactionCategory } from "./enums/TransactionCategory";
 export declare class ObiexClient {
     private client;
@@ -93,7 +93,7 @@ export declare class ObiexClient {
     /**
      * @returns
      */
-    getActieNetworks(): Promise<ActiveNetwork[]>;
+    getActiveNetworks(): Promise<ActiveNetworkCurrencyMap[]>;
     /**
      *
      * @param page number // default: 1
