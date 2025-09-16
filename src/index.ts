@@ -295,7 +295,7 @@ export class ObiexClient {
    */
   async getActiveNetworks() {
     const { data: response } = await this.client.get<
-      Response<ActiveNetworkCurrencyMap[]>
+      Response<ActiveNetworkCurrencyMap>
     >(`/v1/currencies/networks/active`);
 
     return response.data;

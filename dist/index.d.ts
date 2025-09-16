@@ -93,7 +93,7 @@ export declare class ObiexClient {
     /**
      * @returns
      */
-    getActiveNetworks(): Promise<ActiveNetworkCurrencyMap[]>;
+    getActiveNetworks(): Promise<ActiveNetworkCurrencyMap>;
     /**
      *
      * @param page number // default: 1
