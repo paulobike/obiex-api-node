@@ -11,7 +11,7 @@ export interface Response<T> {
     {
       message: string;
       property: string;
-    }
+    },
   ];
   meta?: {
     perPage: number;
@@ -75,6 +75,19 @@ export interface Network {
   addressRegex: string;
   minimumConfirmations: number;
 }
+
+export interface ActiveNetwork {
+  networkName: string;
+  networkCode: string;
+  minimumDeposit: number;
+  depositFee: number;
+  minimumWithdrawal: number;
+  withdrawalFee: number;
+  maximumDecimalPlaces: number;
+  receiveFeeType: "PERCENTAGE" | string;
+  withdrawalFeeType: "PERCENTAGE" | string;
+}
+
 export interface BankAccountPayout {
   accountNumber: string;
   accountName: string;
